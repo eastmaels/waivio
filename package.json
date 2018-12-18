@@ -118,7 +118,8 @@
     "stompjs": "2.3.3",
     "net": "1.0.2",
     "react-easy-chart": "1.0.0",
-    "string-humanize": "1.0.0"
+    "string-humanize": "1.0.0",
+    "whatwg-fetch": "latest"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.4.8",
