@@ -4,8 +4,7 @@ import React, { Component } from 'react';
 import { publishSubscribe, destroyPublishSubscribe } from '../../../../platform/publishSubscribe';
 import { singleton } from '../../../../platform/singletonPlatform';
 import Connector from "./TechChartLib/Connector/Connector";
-const TechnicalChart  = require('./TechChartLib/TechChartLib');
-import './TechChartLib/TechChartLib.css'
+
 class TchChart extends Component {
     constructor (props) {
         super(props);
