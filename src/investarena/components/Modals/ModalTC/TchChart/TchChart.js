@@ -3,6 +3,9 @@ import humanize from 'string-humanize';
 import React, { Component } from 'react';
 import { publishSubscribe, destroyPublishSubscribe } from '../../../../platform/publishSubscribe';
 import { singleton } from '../../../../platform/singletonPlatform';
+import Connector from "./TechChartLib/Connector/Connector";
+import './TechChartLib/TechChartLib'
+import './TechChartLib/TechChartLib.css'
 
 class TchChart extends Component {
     constructor (props) {
@@ -33,34 +36,27 @@ class TchChart extends Component {
         um_session: '',
         sockjspath: ''
       },
-      settingsUrl: '//informer.maximarkets.ru/wss/quotation/getsettings?tch=true',
       lang: 'ru',
-      isHeaderHidden: false,
-      isSidebarHidden: false,
-      isFullScreen: false,
-      isDataPanel: true,
       isOtherParams: false,
       isAutoRestore: false,
       rowsid: [],
-      typeThemes: 'DefaultThema',
       typeData: this.props.typeData === 'Sell' ? 'bid' : 'ask',
       modules: {
         isShowNews: false,
-        isHeaderCreate: true,
         isShowEvents: false,
         signals: false,
-        chartElements: {}
+        chartElements: {
+          isDataPanelCreate: false
+        }
+      },
+      links: {
+        settingsUrl: '//informer.maximarkets.ru/wss/quotation/getsettings?tch=true'
       }
     };
-    configuration.settingsUrl = '//informer.maximarkets.ru/wss/quotation/getsettings?tch=true';
-    configuration.lang = 'en';
-    configuration.modules.isShowNews = false;
-    configuration.modules.isHeaderCreate = true;
-    configuration.modules.isSidebarHidden = false;
-    configuration.modules.isHeaderHidden = false;
-    configuration.modules.isShowEvents = false;
-    configuration.modules.signals = false;
-    this.createTch(params, 'default');
+    this.createTch({
+      container: document.querySelector('.tch-assets-page'),
+      config: params
+    }, );
     // document.querySelector('.tch-data-panel').classList.add('invisible');
     // document.querySelector('.tch-search').classList.add('invisible');
     // document.querySelector('.tch-chart-layouts-container').classList.add('invisible');
@@ -76,9 +72,10 @@ class TchChart extends Component {
     destroyPublishSubscribe(singleton.platform);
   }
   createTch (params) {
-    let tchParent = document.querySelector('.tch-assets-page');
+    // let tchParent = document.querySelector('.tch-assets-page');
+    const connector = new Connector(params.config);
     if (TechnicalChart){
-      this.tch = new TechnicalChart(tchParent, params);
+      this.tch = new TechnicalChart(params, connector);
       this.tch.init(params);
     }
   }

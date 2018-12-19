@@ -1,8 +1,8 @@
+// import { fetch } from 'whatwg-fetch';
 import { singleton } from '../../../../../../platform/singletonPlatform';
-import * as pubSub from '../../../../../../platform/publishSubscribe';
-import { fetch } from 'whatwg-fetch';
+import { publishSubscribe, destroyPublishSubscribe} from '../../../../../../platform/publishSubscribe';
 
-export class ConnectorWidgets {
+export default class Connector {
   constructor(configuration) {
     this.listeners = [];
     this.client = null;
@@ -272,26 +272,29 @@ export class ConnectorWidgets {
   };
 
   subscribe = () => {
-    let platform = this.getPlatformChooser();
-    pubSub.publishSubscribe('ChartData', this.onMessage);
+    const platform = this.getPlatformChooser();
+    // pubSub.publishSubscribe('ChartData', this.onMessage);
+    publishSubscribe(platform);
+    platform.subscribe('ChartData', this.onMessage);
 
     if (this.client && this.client.connected) {
       for (let i = 0; i < this.subscriptions.length; i++) {
         let pair = this.subscriptions[i][0];
-        platform.subscribeChannel(pair);
-        pubSub.subscribe(pair, this.onRates);
+        // platform.subscribeChannel(pair);
+        // pubSub.subscribe(pair, this.onRates);
+        platform.subscribe(pair, this.onRates);
       }
     }
   };
 
   unsubscribe = () => {
-    let platform = this.getPlatformChooser();
+    const platform = this.getPlatformChooser();
     for (let i = 0; i < this.subscriptions.length; i++) {
-      let pair = this.subscriptions[i][0];
-      platform.unsubscribeChannel(pair);
-      pubSub.unsubscribe(pair, this.onRates);
+      const pair = this.subscriptions[i][0];
+      // platform.unsubscribeChannel(pair);
+      platform.unsubscribe(pair, this.onRates);
     }
-    pubSub.unsubscribe('ChartData', this.onMessage);
+    platform.unsubscribe('ChartData', this.onMessage);
     this.subscriptions = [];
   };
 
@@ -300,14 +303,14 @@ export class ConnectorWidgets {
   };
 
   getBars = opt => {
-    let pair = opt.pair.Name;
-    let period = this.convertValueToServerPeriod(opt.period);
+    const pair = opt.pair.Name;
+    const period = this.convertValueToServerPeriod(opt.period);
     opt.listener.waitFor = {pair: pair, period: period};
     if (this.client && this.client.connected) {
       let platform = this.getPlatformChooser();
       switch (opt.cmd) {
         case 'getFirstData':
-          platform.GetChartData(opt.pair.Name, this.convertValueToServerPeriod(opt.period));
+          platform.getChartData(opt.pair.Name, this.convertValueToServerPeriod(opt.period));
           break;
         case 'getDataOnUpdate':
           break;
