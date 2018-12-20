@@ -4,10 +4,12 @@ import React from 'react';
 // import { getLanguageState } from '../../../../redux/selectors/languageSelectors';
 import { getModalIsOpenState } from '../../../../redux/selectors/modalsSelectors';
 import TchChart from './TchChart';
+import {getChartsState} from "../../../../redux/selectors/chartsSelectors";
 
 const propTypes = {
     isOpen: PropTypes.bool.isRequired,
-    language: PropTypes.string.isRequired
+    language: PropTypes.string.isRequired,
+    // chartData: PropTypes.array.isRequired
 };
 
 const TchChartContainer = (props) => <TchChart {...props}/>;
@@ -18,7 +20,9 @@ function mapStateToProps (state) {
     return {
         language: 'en',
         // language: getLanguageState(state),
-        isOpen: getModalIsOpenState(state, 'modalPost')
+      // chartData: getChartsState(state),
+
+      isOpen: getModalIsOpenState(state, 'modalPost')
     };
 }
 

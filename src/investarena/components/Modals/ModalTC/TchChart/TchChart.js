@@ -10,7 +10,7 @@ class TchChart extends Component {
         super(props);
     }
   componentDidMount = () => {
-    publishSubscribe(singleton.platform);
+    publishSubscribe(singleton);
     let source = 'fes.investarena';
     let name = this.props.quoteSecurity;
     let fullName = singleton.platform.quotesSettings[name] ? singleton.platform.quotesSettings[name].name : name;
@@ -66,15 +66,15 @@ class TchChart extends Component {
 
   };
   componentWillUnmount () {
-    this.tch.close();
-    destroyPublishSubscribe(singleton.platform);
+    // this.tch.close();
+    destroyPublishSubscribe(singleton);
   }
   createTch (params) {
     // let tchParent = document.querySelector('.tch-assets-page');
     const connector = new Connector(params.config);
     if (TechnicalChart){
       this.tch = new TechnicalChart(params, connector);
-      this.tch.init(params);
+      this.tch.init();
     }
   }
     render () {

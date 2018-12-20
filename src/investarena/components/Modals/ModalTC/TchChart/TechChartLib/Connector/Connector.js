@@ -274,15 +274,15 @@ export default class Connector {
   subscribe = () => {
     const platform = this.getPlatformChooser();
     // pubSub.publishSubscribe('ChartData', this.onMessage);
-    publishSubscribe(platform);
-    platform.subscribe('ChartData', this.onMessage);
+    publishSubscribe(platform.platform);
+    platform.platform.subscribe('ChartData', this.onMessage);
 
     if (this.client && this.client.connected) {
       for (let i = 0; i < this.subscriptions.length; i++) {
         let pair = this.subscriptions[i][0];
         // platform.subscribeChannel(pair);
         // pubSub.subscribe(pair, this.onRates);
-        platform.subscribe(pair, this.onRates);
+        platform.platform.subscribe(pair, this.onRates);
       }
     }
   };
@@ -291,7 +291,6 @@ export default class Connector {
     const platform = this.getPlatformChooser();
     for (let i = 0; i < this.subscriptions.length; i++) {
       const pair = this.subscriptions[i][0];
-      // platform.unsubscribeChannel(pair);
       platform.unsubscribe(pair, this.onRates);
     }
     platform.unsubscribe('ChartData', this.onMessage);
@@ -310,7 +309,7 @@ export default class Connector {
       let platform = this.getPlatformChooser();
       switch (opt.cmd) {
         case 'getFirstData':
-          platform.getChartData(opt.pair.Name, this.convertValueToServerPeriod(opt.period));
+          platform.platform.getChartData(opt.pair.Name, this.convertValueToServerPeriod(opt.period));
           break;
         case 'getDataOnUpdate':
           break;
@@ -321,7 +320,7 @@ export default class Connector {
   };
 
   onRates = (a, b) => {
-    this.onMessage(a, b);
+    this.onMessage(a, a);
   };
 
   onMessage = (a, b) => {
@@ -470,13 +469,13 @@ export default class Connector {
     let tick = 100;
     let dindex = 5;
     let platform = this.getPlatformChooser();
-    if (this.client && platform.quotesSettings !== null) {
-      for (let symbol in platform.quotesSettings) {
-        if (!platform.quotesSettings.hasOwnProperty(symbol)) {
+    if (this.client && platform.platform.quotesSettings !== null) {
+      for (let symbol in platform.platform.quotesSettings) {
+        if (!platform.platform.quotesSettings.hasOwnProperty(symbol)) {
           continue;
         }
         if (security === symbol) {
-          tick = platform.quotesSettings[symbol].tickSize;
+          tick = platform.platform.quotesSettings[symbol].tickSize;
           dindex = 8 - ('' + tick).length;
           return dindex;
         }
@@ -540,7 +539,7 @@ export default class Connector {
   };
 
   getPlatformChooser = () => {
-    return singleton.getInstance();
+    return singleton;
   };
 
   getAutochartistSignals = () => {
