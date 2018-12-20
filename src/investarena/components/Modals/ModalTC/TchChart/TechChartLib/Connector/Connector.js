@@ -1,6 +1,6 @@
 // import { fetch } from 'whatwg-fetch';
-import { singleton } from '../../../../../../platform/singletonPlatform';
-import { publishSubscribe, destroyPublishSubscribe} from '../../../../../../platform/publishSubscribe';
+import {singleton} from '../../../../../../platform/singletonPlatform';
+import {publishSubscribe, destroyPublishSubscribe} from '../../../../../../platform/publishSubscribe';
 
 export default class Connector {
   constructor(configuration) {
@@ -324,14 +324,18 @@ export default class Connector {
   };
 
   onMessage = (a, b) => {
+    console.log('onMessage', a, b);
+
     if (a.bidPrice) {
       this.process_Rates(a);
     } else if (a.type === 'Signals') {
       let data = this.parseSignals(b);
       let listeners = this.listeners;
+
       if (listeners) {
         for (let i = 0; i < listeners.length; i++) {
           data = data[listeners[i].pair.Name];
+
           if (data) {
             listeners[i].onConnectorMessage(data, listeners[i]);
           }
@@ -339,45 +343,35 @@ export default class Connector {
       }
     } else {
       let ratesData;
-      if(a && Object.keys(a).length){
+
+      if (a && Object.keys(a).length && a.quoteSecurity) {
         ratesData = {
           security: a.quoteSecurity,
-          period: String(a.timeScale).toLowerCase(),
+          period: a.timeScale,
           bars: a.bars
         };
-      }
+
         for (let i = 0; i < this.listeners.length; i++) {
           let listener = this.listeners[i];
-          if (
-            listener.waitFor &&
-            listener.waitFor.pair === ratesData.security &&
-            listener.waitFor.period.toUpperCase() === ratesData.period &&
-            listener.data &&
-            listener.data.bid.length < ratesData.bars.length
-          ) {
+          if (listener.waitFor && listener.waitFor.pair === ratesData.security && listener.waitFor.period.toUpperCase() === ratesData.period && listener.data && listener.data.bid.length < ratesData.bars.length) {
             ratesData.bars = JSON.parse(JSON.stringify(ratesData.bars));
             this.proccess_Bars(ratesData, listener);
             return;
           }
-          if (
-            listener.data.bid[0] &&
-            ratesData.bars[ratesData.bars.length - 1].time / 1000 > listener.data.bid[0].date
-          ) {
+          if (listener.data.bid[0] && ratesData.bars[ratesData.bars.length - 1].time / 1000 > listener.data.bid[0].date) {
             let result = {};
             let precission = this.getPrecission(ratesData.security);
             result.rates = [];
             result.mdata = {};
             result.mdata.args = {};
             result.mdata.cmd = 'update';
-            result.mdata.args.bar = this.processDataItem(
-              ratesData.bars[ratesData.bars.length - 1],
-              precission,
-            );
+            result.mdata.args.bar = this.processDataItem(ratesData.bars[ratesData.bars.length - 1], precission);
             result.mdata.args.period = listener.getServerPeriod();
             listener.onConnectorMessage(result, listener);
             return;
           }
         }
+      }
     }
   };
 

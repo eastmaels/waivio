@@ -1,14 +1,15 @@
 /* eslint-disable */
 import humanize from 'string-humanize';
-import React, { Component } from 'react';
-import { publishSubscribe, destroyPublishSubscribe } from '../../../../platform/publishSubscribe';
-import { singleton } from '../../../../platform/singletonPlatform';
+import React, {Component} from 'react';
+import {publishSubscribe, destroyPublishSubscribe} from '../../../../platform/publishSubscribe';
+import {singleton} from '../../../../platform/singletonPlatform';
 import Connector from "./TechChartLib/Connector/Connector";
 
 class TchChart extends Component {
-    constructor (props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+  }
+
   componentDidMount = () => {
     publishSubscribe(singleton);
     let source = 'fes.investarena';
@@ -54,7 +55,7 @@ class TchChart extends Component {
     this.createTch({
       container: document.querySelector('.tch-assets-page'),
       config: params
-    }, );
+    },);
     // document.querySelector('.tch-data-panel').classList.add('invisible');
     // document.querySelector('.tch-search').classList.add('invisible');
     // document.querySelector('.tch-chart-layouts-container').classList.add('invisible');
@@ -65,30 +66,33 @@ class TchChart extends Component {
     // },200)
 
   };
-  componentWillUnmount () {
+
+  componentWillUnmount() {
     // this.tch.close();
     destroyPublishSubscribe(singleton);
   }
-  createTch (params) {
+
+  createTch(params) {
     // let tchParent = document.querySelector('.tch-assets-page');
     const connector = new Connector(params.config);
-    if (TechnicalChart){
+    if (TechnicalChart) {
       this.tch = new TechnicalChart(params, connector);
       this.tch.init();
     }
   }
-    render () {
-        return (
-            <div
-                className="tch-wrap"
-                style={{width: '100%', height: '100%', position: 'relative'}}
-            >
-                <div className="tch-technical-chart-container tch-assets-page"
-                     style={{width: '100%', height: '100%', backgroundColor: 'yellow'}}
-                />
-            </div>
-        );
-    }
+
+  render() {
+    return (
+      <div
+        className="tch-wrap"
+        style={{width: '100%', height: '100%', position: 'relative'}}
+      >
+        <div className="tch-technical-chart-container tch-assets-page"
+             style={{width: '100%', height: '100%', backgroundColor: 'yellow'}}
+        />
+      </div>
+    );
+  }
 }
 
 export default TchChart;
