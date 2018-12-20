@@ -186,7 +186,7 @@ export class Widgets {
       bars = _.sortBy(bars, 'time');
       this.dispatch(getChartDataSuccess({ quoteSecurity, timeScale, bars }));
       if (this.hasOwnProperty('publish')) {
-        this.publish(`ChartData${quoteSecurity}`, { quoteSecurity, timeScale, bars });
+        this.publish(`ChartData`, { quoteSecurity, timeScale, bars });
       }
     }
   }

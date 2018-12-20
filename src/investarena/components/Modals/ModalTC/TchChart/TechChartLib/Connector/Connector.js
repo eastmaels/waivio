@@ -273,7 +273,7 @@ export default class Connector {
 
   subscribe = () => {
     const platform = this.getPlatformChooser();
-    // pubSub.publishSubscribe('ChartData', this.onMessage);
+    // pubSua.publishSubscribe('ChartData', this.onMessage);
     publishSubscribe(platform.platform);
     platform.platform.subscribe('ChartData', this.onMessage);
 
@@ -281,7 +281,7 @@ export default class Connector {
       for (let i = 0; i < this.subscriptions.length; i++) {
         let pair = this.subscriptions[i][0];
         // platform.subscribeChannel(pair);
-        // pubSub.subscribe(pair, this.onRates);
+        // pubSua.subscribe(pair, this.onRates);
         platform.platform.subscribe(pair, this.onRates);
       }
     }
@@ -320,12 +320,12 @@ export default class Connector {
   };
 
   onRates = (a, b) => {
-    this.onMessage(a, a);
+    this.onMessage(a, b);
   };
 
   onMessage = (a, b) => {
-    if (b.bidPrice) {
-      this.process_Rates(b);
+    if (a.bidPrice) {
+      this.process_Rates(a);
     } else if (a.type === 'Signals') {
       let data = this.parseSignals(b);
       let listeners = this.listeners;
@@ -338,11 +338,14 @@ export default class Connector {
         }
       }
     } else {
-      let ratesData = {};
-      ratesData.security = Object.keys(b.NEW)[0];
-      ratesData.period = Object.keys(b.NEW[ratesData.security])[0];
-      ratesData.bars = b.NEW[ratesData.security][ratesData.period];
-      if (b) {
+      let ratesData;
+      if(a && Object.keys(a).length){
+        ratesData = {
+          security: a.quoteSecurity,
+          period: String(a.timeScale).toLowerCase(),
+          bars: a.bars
+        };
+      }
         for (let i = 0; i < this.listeners.length; i++) {
           let listener = this.listeners[i];
           if (
@@ -375,7 +378,6 @@ export default class Connector {
             return;
           }
         }
-      }
     }
   };
 
