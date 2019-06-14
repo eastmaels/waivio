@@ -5,6 +5,7 @@ import wobjectReducer, {
   getObjectFields,
   getRatingFields,
 } from '../wobjectReducer';
+import { objectFields } from '../../../common/constants/listOfFields';
 
 describe('object Reducer', () => {
   it('should return the initial state', () => {
@@ -67,18 +68,20 @@ describe('object Reducer', () => {
   it('should return fields state', () => {
     const initialState = {
       wobject: {
-        fields: {
-          name: 'Ivan',
-          permlink: 'randomValue',
-          locale: 'en-US',
-        },
+        fields: [
+          {
+            name: objectFields.rating,
+            permlink: 'randomValue',
+            locale: 'en-US',
+          },
+        ],
       },
     };
-    const actual = {
-      name: 'Ivan',
+    const actual = [{
+      name: objectFields.rating,
       permlink: 'randomValue',
       locale: 'en-US',
-    };
+    }];
     expect(getRatingFields(initialState)).toEqual(actual);
   });
 });
