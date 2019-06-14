@@ -1,4 +1,5 @@
 import * as actions from '../wobjectsActions';
+import { RATE_WOBJECT_SUCCESS } from '../../../client/object/wobjActions';
 import wobjectReducer, {
   getObjectState,
   getObjectAuthor,
@@ -30,7 +31,7 @@ describe('object Reducer', () => {
       isFetching: false,
     });
   });
-  it('should add item to itemList on action ADD_ITEM_TO_LIST', () => {
+  it('should add item to itemList on action ADD_ITEM_TO_LIST when state is empty', () => {
     expect(
       wobjectReducer(
         { wobject: { listItems: [] } },
@@ -38,6 +39,16 @@ describe('object Reducer', () => {
       ),
     ).toEqual({
       wobject: { listItems: ['Anna123'] },
+    });
+  });
+  it('should add item to itemList on action ADD_ITEM_TO_LIST when state has value', () => {
+    expect(
+      wobjectReducer(
+        { wobject: { listItems: ['Ivan123'] } },
+        { type: actions.ADD_ITEM_TO_LIST, payload: 'Anna123' },
+      ),
+    ).toEqual({
+      wobject: { listItems: ['Ivan123','Anna123'] },
     });
   });
   it('should return wobject state', () => {
@@ -65,7 +76,7 @@ describe('object Reducer', () => {
     };
     expect(getObjectFields(initialState)).toEqual(actual);
   });
-  it('should return fields state', () => {
+  it('should return rated fields state', () => {
     const initialState = {
       wobject: {
         fields: [
@@ -73,7 +84,7 @@ describe('object Reducer', () => {
             name: objectFields.rating,
             permlink: 'randomValue',
             locale: 'en-US',
-          },
+          }
         ],
       },
     };
@@ -83,5 +94,85 @@ describe('object Reducer', () => {
       locale: 'en-US',
     }];
     expect(getRatingFields(initialState)).toEqual(actual);
+  });
+  it('should return rated wobject on action RATE_WOBJECT_SUCCESS when votes and permlinks are equals', () => {
+    const initialState = {
+      wobject: {
+        fields: [
+          {
+            name: objectFields.rating,
+            permlink: 'randomValue',
+            locale: 'en-US',
+            rating_votes: [{voter: 'voter'}]
+          }
+        ],
+      },
+    };
+    const expected = {wobject: {fields: [{locale: "en-US", name: objectFields.rating, permlink: "randomValue", rating_votes: [{rate: "value", voter: "voter"}]}]}};
+    expect(wobjectReducer(initialState, { type: RATE_WOBJECT_SUCCESS, payload: {}, meta: {rate : 'value', voter : 'voter', permlink: 'randomValue'} })).toEqual(expected);
+  });
+  it('should return rated wobject on action RATE_WOBJECT_SUCCESS when votes not equals and permlinks are equals', () => {
+    const initialState = {
+      wobject: {
+        fields: [
+          {
+            name: objectFields.rating,
+            permlink: 'randomValue',
+            locale: 'en-US',
+            rating_votes: [{voter: 'voter'}]
+          }
+        ],
+      },
+    };
+    const expected = {wobject: {fields: [{locale: 'en-US', name: objectFields.rating, permlink: 'randomValue', rating_votes: [{voter: "voter"}, {rate: "value", voter: "notEqualVoter"}]}]}};
+    expect(wobjectReducer(initialState, { type: RATE_WOBJECT_SUCCESS, payload: {}, meta: {rate : 'value', voter : 'notEqualVoter', permlink: 'randomValue'} })).toEqual(expected);
+  });
+  it('should return rated wobject on action RATE_WOBJECT_SUCCESS when votes not equals and permlinks are equals', () => {
+    const initialState = {
+      wobject: {
+        fields: [
+          {
+            name: objectFields.rating,
+            permlink: 'randomValue',
+            locale: 'en-US',
+            rating_votes: [{voter: 'voter'}]
+          }
+        ],
+      },
+    };
+    const expected = {wobject: {fields: [{locale: 'en-US', name: objectFields.rating, permlink: 'randomValue', rating_votes: [{voter: "voter"}, {rate: "value", voter: "notEqualVoter"}]}]}};
+    expect(wobjectReducer(initialState, { type: RATE_WOBJECT_SUCCESS, payload: {}, meta: {rate : 'value', voter : 'notEqualVoter', permlink: 'randomValue'} })).toEqual(expected);
+  });
+  it('should return rated wobject on action RATE_WOBJECT_SUCCESS when votes equals and permlinks not equals', () => {
+    const initialState = {
+      wobject: {
+        fields: [
+          {
+            name: objectFields.rating,
+            permlink: 'randomValue',
+            locale: 'en-US',
+            rating_votes: [{voter: 'voter'}]
+          }
+        ],
+      },
+    };
+    const expected = {wobject: {fields: [{locale: 'en-US', name: objectFields.rating, permlink: 'randomValue', rating_votes: [{voter: "voter"}]}]}};
+    expect(wobjectReducer(initialState, { type: RATE_WOBJECT_SUCCESS, payload: {}, meta: {rate : 'value', voter : 'voter', permlink: 'notEqualRandomValue'} })).toEqual(expected);
+  });
+  it('should return rated wobject on action RATE_WOBJECT_SUCCESS when votes not equals and permlinks not equals', () => {
+    const initialState = {
+      wobject: {
+        fields: [
+          {
+            name: objectFields.rating,
+            permlink: 'randomValue',
+            locale: 'en-US',
+            rating_votes: [{voter: 'voter'}]
+          }
+        ],
+      },
+    };
+    const expected = {wobject: {fields: [{locale: 'en-US', name: objectFields.rating, permlink: 'randomValue', rating_votes: [{voter: "voter"}]}]}};
+    expect(wobjectReducer(initialState, { type: RATE_WOBJECT_SUCCESS, payload: {}, meta: {rate : 'value', voter : 'notEqualVoter', permlink: 'notEqualRandomValue'} })).toEqual(expected);
   });
 });
