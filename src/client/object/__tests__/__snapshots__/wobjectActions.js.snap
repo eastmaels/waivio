@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`object actions should dispatch actions of GET_USERS_BY_OBJECT 1`] = `[Function]`;
+
+exports[`object actions should dispatch actions of GET_USERS_BY_OBJECT: 1 1`] = `[Function]`;
+
+exports[`object actions should dispatch actions of getObjectInfo 1`] = `[Function]`;
+
+exports[`object actions should dispatch actions of getObjectInfo 2`] = `[Function]`;
+
+exports[`object actions should dispatch actions of getObjectInfo: 1 1`] = `[Function]`;
+
+exports[`object actions should dispatch actions of getObjectInfo: 1 2`] = `[Function]`;

@@ -1,0 +1,303 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<InterestingObjects /> renders component without crashing 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Provider
+    store={
+      Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      }
+    }
+  >
+    <IntlProvider
+      locale="en"
+    >
+      <Connect(InterestingObjects)
+        recommendedObjects={
+          Array [
+            Object {
+              "__v": 0,
+              "_id": "5caf424c6fb6c810cde66d6b",
+              "app": "waiviodev/1.0.0",
+              "author": "suy38",
+              "author_permlink": "life",
+              "community": "",
+              "createdAt": "2019-04-11T13:34:04.222Z",
+              "creator": "wiv01",
+              "default_name": "life",
+              "is_extending_open": true,
+              "is_posting_open": true,
+              "object_type": "hashtag",
+              "parent": "",
+              "rank": 8,
+              "updatedAt": "2019-06-18T11:33:16.621Z",
+              "user_count": 5,
+              "weight": 32967838660.60074,
+            },
+            Object {
+              "__v": 0,
+              "_id": "5caf43596fb6c810cde6b716",
+              "app": "waiviodev/1.0.0",
+              "author": "q1w2c",
+              "author_permlink": "busy",
+              "community": "",
+              "createdAt": "2019-04-11T13:38:33.125Z",
+              "creator": "wiv01",
+              "default_name": "busy",
+              "is_extending_open": true,
+              "is_posting_open": true,
+              "object_type": "hashtag",
+              "parent": "",
+              "rank": 7,
+              "updatedAt": "2019-06-18T11:33:17.199Z",
+              "user_count": 5,
+              "weight": 30582410090.73522,
+            },
+          ]
+        }
+      />
+    </IntlProvider>
+  </Provider>,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "class",
+    "props": Object {
+      "children": <Connect(InterestingObjects)
+        recommendedObjects={
+          Array [
+            Object {
+              "__v": 0,
+              "_id": "5caf424c6fb6c810cde66d6b",
+              "app": "waiviodev/1.0.0",
+              "author": "suy38",
+              "author_permlink": "life",
+              "community": "",
+              "createdAt": "2019-04-11T13:34:04.222Z",
+              "creator": "wiv01",
+              "default_name": "life",
+              "is_extending_open": true,
+              "is_posting_open": true,
+              "object_type": "hashtag",
+              "parent": "",
+              "rank": 8,
+              "updatedAt": "2019-06-18T11:33:16.621Z",
+              "user_count": 5,
+              "weight": 32967838660.60074,
+            },
+            Object {
+              "__v": 0,
+              "_id": "5caf43596fb6c810cde6b716",
+              "app": "waiviodev/1.0.0",
+              "author": "q1w2c",
+              "author_permlink": "busy",
+              "community": "",
+              "createdAt": "2019-04-11T13:38:33.125Z",
+              "creator": "wiv01",
+              "default_name": "busy",
+              "is_extending_open": true,
+              "is_posting_open": true,
+              "object_type": "hashtag",
+              "parent": "",
+              "rank": 7,
+              "updatedAt": "2019-06-18T11:33:17.199Z",
+              "user_count": 5,
+              "weight": 30582410090.73522,
+            },
+          ]
+        }
+      />,
+      "locale": "en",
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "recommendedObjects": Array [
+          Object {
+            "__v": 0,
+            "_id": "5caf424c6fb6c810cde66d6b",
+            "app": "waiviodev/1.0.0",
+            "author": "suy38",
+            "author_permlink": "life",
+            "community": "",
+            "createdAt": "2019-04-11T13:34:04.222Z",
+            "creator": "wiv01",
+            "default_name": "life",
+            "is_extending_open": true,
+            "is_posting_open": true,
+            "object_type": "hashtag",
+            "parent": "",
+            "rank": 8,
+            "updatedAt": "2019-06-18T11:33:16.621Z",
+            "user_count": 5,
+            "weight": 32967838660.60074,
+          },
+          Object {
+            "__v": 0,
+            "_id": "5caf43596fb6c810cde6b716",
+            "app": "waiviodev/1.0.0",
+            "author": "q1w2c",
+            "author_permlink": "busy",
+            "community": "",
+            "createdAt": "2019-04-11T13:38:33.125Z",
+            "creator": "wiv01",
+            "default_name": "busy",
+            "is_extending_open": true,
+            "is_posting_open": true,
+            "object_type": "hashtag",
+            "parent": "",
+            "rank": 7,
+            "updatedAt": "2019-06-18T11:33:17.199Z",
+            "user_count": 5,
+            "weight": 30582410090.73522,
+          },
+        ],
+      },
+      "ref": null,
+      "rendered": null,
+      "type": [Function],
+    },
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "children": <Connect(InterestingObjects)
+          recommendedObjects={
+            Array [
+              Object {
+                "__v": 0,
+                "_id": "5caf424c6fb6c810cde66d6b",
+                "app": "waiviodev/1.0.0",
+                "author": "suy38",
+                "author_permlink": "life",
+                "community": "",
+                "createdAt": "2019-04-11T13:34:04.222Z",
+                "creator": "wiv01",
+                "default_name": "life",
+                "is_extending_open": true,
+                "is_posting_open": true,
+                "object_type": "hashtag",
+                "parent": "",
+                "rank": 8,
+                "updatedAt": "2019-06-18T11:33:16.621Z",
+                "user_count": 5,
+                "weight": 32967838660.60074,
+              },
+              Object {
+                "__v": 0,
+                "_id": "5caf43596fb6c810cde6b716",
+                "app": "waiviodev/1.0.0",
+                "author": "q1w2c",
+                "author_permlink": "busy",
+                "community": "",
+                "createdAt": "2019-04-11T13:38:33.125Z",
+                "creator": "wiv01",
+                "default_name": "busy",
+                "is_extending_open": true,
+                "is_posting_open": true,
+                "object_type": "hashtag",
+                "parent": "",
+                "rank": 7,
+                "updatedAt": "2019-06-18T11:33:17.199Z",
+                "user_count": 5,
+                "weight": 30582410090.73522,
+              },
+            ]
+          }
+        />,
+        "locale": "en",
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "recommendedObjects": Array [
+            Object {
+              "__v": 0,
+              "_id": "5caf424c6fb6c810cde66d6b",
+              "app": "waiviodev/1.0.0",
+              "author": "suy38",
+              "author_permlink": "life",
+              "community": "",
+              "createdAt": "2019-04-11T13:34:04.222Z",
+              "creator": "wiv01",
+              "default_name": "life",
+              "is_extending_open": true,
+              "is_posting_open": true,
+              "object_type": "hashtag",
+              "parent": "",
+              "rank": 8,
+              "updatedAt": "2019-06-18T11:33:16.621Z",
+              "user_count": 5,
+              "weight": 32967838660.60074,
+            },
+            Object {
+              "__v": 0,
+              "_id": "5caf43596fb6c810cde6b716",
+              "app": "waiviodev/1.0.0",
+              "author": "q1w2c",
+              "author_permlink": "busy",
+              "community": "",
+              "createdAt": "2019-04-11T13:38:33.125Z",
+              "creator": "wiv01",
+              "default_name": "busy",
+              "is_extending_open": true,
+              "is_posting_open": true,
+              "object_type": "hashtag",
+              "parent": "",
+              "rank": 7,
+              "updatedAt": "2019-06-18T11:33:17.199Z",
+              "user_count": 5,
+              "weight": 30582410090.73522,
+            },
+          ],
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;
