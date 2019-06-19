@@ -28,7 +28,7 @@ export const getUsersByObject = object => dispatch =>
   dispatch({
     type: GET_USERS_BY_OBJECT.ACTION,
     payload: ApiClient.getUsersByObject(object),
-  }).catch(() => {});
+  });
 
 export const GET_FEED_CONTENT_BY_OBJECT = createAsyncActionType(
   '@objects/GET_FEED_CONTENT_BY_OBJECT',
@@ -37,7 +37,7 @@ export const getFeedContentByObject = object => dispatch =>
   dispatch({
     type: GET_FEED_CONTENT_BY_OBJECT.ACTION,
     payload: ApiClient.getFeedContentByObject(object),
-  }).catch(() => {});
+  });
 
 export const getObjectInfo = (authorPermlink, username) => dispatch => {
   dispatch(clearObjectFromStore());

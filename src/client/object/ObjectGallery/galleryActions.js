@@ -12,16 +12,9 @@ export const RESET_GALLERY = '@gallery/RESET_GALLERY';
 export const getAlbums = authorPermlink => dispatch =>
   dispatch({
     type: GET_ALBUMS.ACTION,
-    payload: {
-      promise: getWobjectGallery(authorPermlink).then(albums => {
-        const defaultAlbum = _.remove(albums, alb => alb.id === authorPermlink);
-
-        const sortedAlbums = _.orderBy(albums, ['weight'], ['desc']);
-
-        return [...defaultAlbum, ...sortedAlbums];
-      }),
-    },
-  }).catch(() => {});
+    payload: getWobjectGallery(authorPermlink),
+    meta: { authorPermlink },
+  });
 
 export const addAlbumToStore = createAction(ADD_ALBUM);
 export const addImageToAlbumStore = createAction(ADD_IMAGE);

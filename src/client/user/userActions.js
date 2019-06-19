@@ -35,13 +35,14 @@ export const GET_RECOMMENDED_OBJECTS_START = '@user/GET_RECOMMENDED_OBJECTS_STAR
 export const GET_RECOMMENDED_OBJECTS_SUCCESS = '@user/GET_RECOMMENDED_OBJECTS_SUCCESS';
 export const GET_RECOMMENDED_OBJECTS_ERROR = '@user/GET_RECOMMENDED_OBJECTS_ERROR';
 
-export const getRecommendedObj = () => dispatch =>
-  dispatch({
+export const getRecommendedObj = () => dispatch => {
+  return dispatch({
     type: GET_RECOMMENDED_OBJECTS,
     payload: {
       promise: ApiClient.getRecommendedObjects(),
     },
   });
+};
 
 export const UNFOLLOW_USER = '@user/UNFOLLOW_USER';
 export const UNFOLLOW_USER_START = '@user/UNFOLLOW_USER_START';

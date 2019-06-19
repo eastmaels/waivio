@@ -1,9 +1,17 @@
+import _ from 'lodash';
 import * as galleryActions from './galleryActions';
 
 const defaultState = {
   albumsLoading: true,
   error: null,
   albums: [],
+};
+
+export const mapAlbums = (albums, authorPermlink) => {
+  const defaultAlbum = _.remove(albums, alb => alb.id === authorPermlink);
+  const sortedAlbums = _.orderBy(albums, ['weight'], ['desc']);
+
+  return [...defaultAlbum, ...sortedAlbums];
 };
 
 export default (state = defaultState, action) => {
@@ -22,7 +30,7 @@ export default (state = defaultState, action) => {
     case galleryActions.GET_ALBUMS.SUCCESS:
       return {
         ...state,
-        albums: action.payload,
+        albums: mapAlbums(action.payload, action.meta.authorPermlink),
         error: null,
         albumsLoading: false,
       };
