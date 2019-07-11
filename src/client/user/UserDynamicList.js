@@ -12,8 +12,13 @@ export default class UserDynamicList extends React.Component {
   static propTypes = {
     limit: PropTypes.number.isRequired,
     fetcher: PropTypes.func.isRequired,
+    showAuthorizedUser: PropTypes.bool,
+    userName: PropTypes.stringd,
   };
-
+  static defaultProps = {
+    showAuthorizedUser: false,
+    userName: '',
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -59,13 +64,22 @@ export default class UserDynamicList extends React.Component {
           loader={<Loading />}
           loadMore={this.handleLoadMore}
         >
-          {users.map(user => (
-            <UserCard key={user.name} user={user} alt={<WeightTag weight={user.weight} />} />
-          ))}
+          {users.map(user => {
+            if (!this.props.showAuthorizedUser || user.name !== this.props.userName) {
+              return (
+                <UserCard
+                  key={user.name}
+                  user={user}
+                  alt={<WeightTag weight={user.wobjects_weight} />}
+                />
+              );
+            }
+            return null;
+          })}
         </ReduxInfiniteScroll>
         {empty && (
           <div className="UserDynamicList__empty">
-            <FormattedMessage id="list_empty" defaultMessage="Nothing is there" />
+            <FormattedMessage id="list_empty" defaultMessage="No data" />
           </div>
         )}
       </div>

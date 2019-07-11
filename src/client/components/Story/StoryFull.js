@@ -20,7 +20,6 @@ import withAuthActions from '../../auth/withAuthActions';
 import { getProxyImageURL } from '../../helpers/image';
 import Popover from '../Popover';
 import BTooltip from '../BTooltip';
-import ReputationTag from '../ReputationTag';
 import { getHtml } from './Body';
 import BodyContainer from '../../containers/Story/BodyContainer';
 import StoryDeleted from './StoryDeleted';
@@ -32,12 +31,7 @@ import PostedFrom from './PostedFrom';
 import './StoryFull.less';
 import ObjectCardView from '../../objectCard/ObjectCardView';
 import { getClientWObj } from '../../adapters';
-import PostForecast from './Story';
-import { jsonParse } from '../../helpers/formatter';
-import PostSellBuy from '../../../investarena/components/PostSellBuy';
-import { isValidForecast } from '../../helpers/forecastHelper';
-import PostQuotation from '../../../investarena/components/PostQuotation';
-import PostChart from '../../../investarena/components/PostChart';
+import WeightTag from '../WeightTag';
 
 @injectIntl
 @withAuthActions
@@ -352,14 +346,7 @@ class StoryFull extends React.Component {
         </div>
       );
     }
-    const jsonMetadata = post ? jsonParse(post.json_metadata) : {};
-    const forecast = _.get(jsonMetadata, 'wia', null);
-    let isForecastValid = false;
-    let isForecastExpired = false;
-    if (forecast) {
-      isForecastValid = isValidForecast(forecast);
-      isForecastExpired = !_.isEmpty(post.exp_forecast);
-    }
+
     return (
       <div className="StoryFull">
         {replyUI}
@@ -388,7 +375,7 @@ class StoryFull extends React.Component {
           <div className="StoryFull__header__text">
             <Link to={`/@${post.author}`}>
               <span className="username">{post.author}</span>
-              <ReputationTag reputation={post.author_reputation} />
+              <WeightTag weight={post.author_wobjects_weight} rank={post.author_rank} />
             </Link>
             <BTooltip
               title={
@@ -442,26 +429,6 @@ class StoryFull extends React.Component {
             <i className="iconfont icon-more StoryFull__header__more" />
           </Popover>
         </div>
-        {isForecastValid && (
-          <div className="Story__forecast">
-            <PostForecast
-              quoteSecurity={forecast.quoteSecurity}
-              postForecast={forecast.expiredAt}
-              isExpired={isForecastExpired}
-              expiredAt={forecast.expiredAt}
-            />
-          </div>
-        )}
-        {isForecastValid && (
-          <PostSellBuy
-            isExpired={isForecastExpired}
-            quoteSecurity={forecast.quoteSecurity}
-            postPrice={forecast.postPrice ? forecast.postPrice.toString() : 0}
-            forecast={forecast.expiredAt}
-            recommend={forecast.recommend}
-            profitability={isForecastExpired ? post.exp_forecast.profitability : 0}
-          />
-        )}
         <div className="StoryFull__content">{content}</div>
         {open && (
           <Lightbox
@@ -495,21 +462,6 @@ class StoryFull extends React.Component {
             }
           />
         )}
-        {isForecastValid && (
-          <PostChart
-            quoteSecurity={forecast.quoteSecurity}
-            createdAt={forecast.createdAt}
-            forecast={forecast.expiredAt}
-            recommend={forecast.recommend}
-            toggleModalPost={() => {}}
-            tpPrice={forecast.tpPrice ? forecast.tpPrice.toString() : null}
-            slPrice={forecast.slPrice ? forecast.slPrice.toString() : null}
-            expForecast={post.exp_forecast}
-          />
-        )}
-        {isForecastValid && (
-          <PostQuotation quoteSecurity={forecast.quoteSecurity} postId={forecast.postId} />
-        )}
 
         <Collapse defaultActiveKey={['1']} accordion>
           {!_.isEmpty(linkedObjects) && (
@@ -541,6 +493,7 @@ class StoryFull extends React.Component {
             </Collapse.Panel>
           )}
         </Collapse>
+
         <StoryFooter
           user={user}
           post={post}

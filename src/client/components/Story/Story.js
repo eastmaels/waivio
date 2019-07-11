@@ -38,6 +38,7 @@ import { jsonParse } from '../../helpers/formatter';
 import PostForecast from '../../../investarena/components/PostForecast';
 import ObjectAvatar from '../ObjectAvatar';
 import { getFieldWithMaxWeight } from '../../object/wObjectHelper';
+import WeightTag from '../WeightTag';
 
 @injectIntl
 @withRouter
@@ -45,14 +46,14 @@ import { getFieldWithMaxWeight } from '../../object/wObjectHelper';
 class Story extends React.Component {
   static propTypes = {
     intl: PropTypes.shape().isRequired,
+    user: PropTypes.shape().isRequired,
     post: PropTypes.shape().isRequired,
-    rewardFund: PropTypes.shape().isRequired,
-    onActionInitiated: PropTypes.func.isRequired,
-    defaultVotePercent: PropTypes.number,
-    postState: PropTypes.shape(),
     match: PropTypes.shape(),
-    user: PropTypes.shape(),
-    showNSFWPosts: PropTypes.bool,
+    postState: PropTypes.shape().isRequired,
+    rewardFund: PropTypes.shape().isRequired,
+    defaultVotePercent: PropTypes.number.isRequired,
+    showNSFWPosts: PropTypes.bool.isRequired,
+    onActionInitiated: PropTypes.func.isRequired,
     pendingLike: PropTypes.bool,
     pendingFlag: PropTypes.bool,
     pendingFollow: PropTypes.bool,
@@ -140,23 +141,29 @@ class Story extends React.Component {
     return true;
   }
   getObjectLayout = wobj => {
-    if (wobj.fields) {
-      const pathName = `/object/${wobj.author_permlink}`;
-      const nameField = getFieldWithMaxWeight(wobj, 'name');
-      return (
-        <Link
-          key={wobj.author_permlink}
-          to={{ pathname: pathName }}
-          title={`${this.props.intl.formatMessage({
-            id: 'related_to_obj',
-            defaultMessage: 'Related to object',
-          })} ${nameField} ${wobj.percent ? `(${wobj.percent}%)` : ''}`}
-        >
-          <ObjectAvatar item={wobj} size={40} />
-        </Link>
-      );
+    const pathName = `/object/${wobj.author_permlink}`;
+    let name = '';
+    if (wobj.objectName) {
+      name = wobj.objectName;
+    } else {
+      const nameFields = _.filter(wobj.fields, o => o.name === 'name');
+      const nameField = _.maxBy(nameFields, 'weight') || {
+        body: wobj.default_name,
+      };
+      if (nameField) name = nameField.body;
     }
-    return null;
+    return (
+      <Link
+        key={wobj.author_permlink}
+        to={{ pathname: pathName }}
+        title={`${this.props.intl.formatMessage({
+          id: 'related_to_obj',
+          defaultMessage: 'Related to object',
+        })} ${name} ${wobj.percent ? `(${wobj.percent.toFixed(2)}%)` : ''}`}
+      >
+        <ObjectAvatar item={wobj} size={40} />
+      </Link>
+    );
   };
   getWobjects = wobjects => {
     let i = 0;
@@ -375,7 +382,8 @@ class Story extends React.Component {
         );
       }
     }
-    return isEnoughtData ? (
+
+    return (
       <div className="Story" id={`${post.author}-${post.permlink}`}>
         {rebloggedUI}
         <div className="Story__content">
@@ -390,11 +398,7 @@ class Story extends React.Component {
                     <span className="username">{post.author}</span>
                   </Link>
                 </h4>
-                {_.isNil(post.author_rank) ? (
-                  <ReputationTag reputation={post.author_reputation} />
-                ) : (
-                  <RankTag rank={post.author_rank} />
-                )}
+                <WeightTag weight={post.author_wobjects_weight} rank={post.author_rank} />
               </span>
               <span>
                 <BTooltip
@@ -514,7 +518,7 @@ class Story extends React.Component {
           </div>
         </div>
       </div>
-    ) : null;
+    );
   }
 }
 
