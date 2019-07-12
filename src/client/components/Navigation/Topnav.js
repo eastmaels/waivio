@@ -428,6 +428,21 @@ class Topnav extends React.Component {
     );
   }
 
+  wobjSearchCheckFields = (option, objectFields) => {
+    const parentString = getFieldWithMaxWeight(option.parent, objectFields.name);
+    const titleSrting = getFieldWithMaxWeight(option, objectFields.title);
+    const description = getFieldWithMaxWeight(option, objectFields.description);
+
+    if (parentString) {
+      return parentString;
+    } else if (titleSrting) {
+      return titleSrting.length <= 25 ? titleSrting : titleSrting.slice(0, 25) + '...';
+    } else if (description) {
+      return description.length <= 25 ? description : description.slice(0, 15) + '...';
+    }
+    return '';
+  };
+
   wobjectSearchLayout(wobjects) {
     return (
       <AutoComplete.OptGroup
@@ -454,14 +469,14 @@ class Topnav extends React.Component {
                 <ObjectAvatar item={option} size={40} />
                 <div>
                   <div className="Topnav__search-content">{wobjName}</div>
-                  {parent && (
-                    <div className="Topnav__search-content-small">
-                      ({getFieldWithMaxWeight(parent, objectFields.name)})
-                    </div>
-                  )}
+                  {/*{parent && (*/}
+                  <div className="Topnav__search-content-small">
+                    {console.log(this.props)}
+                    {this.wobjSearchCheckFields(option, objectFields)}
+                  </div>
+                  {/*)}*/}
                 </div>
               </div>
-
               <div className="Topnav__search-content-small">{option.object_type}</div>
             </AutoComplete.Option>
           ) : null;

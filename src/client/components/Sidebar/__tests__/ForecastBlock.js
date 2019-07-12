@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import React from 'react';
 import thunk from 'redux-thunk';
-import ForecastBlock from '../ForecastBlock/ForecastBlock';
+import ForecastBlock from '../../ForecastBlock/ForecastBlock';
 import {mountWithStore, shallowWithStore} from './shallowWrapper';
 
 const mockStore = configureMockStore([thunk]);
