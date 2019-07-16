@@ -1,4 +1,4 @@
-import { Modal } from 'antd';
+import {Modal} from 'antd';
 import React from 'react';
 import {injectIntl} from 'react-intl';
 import PropTypes from 'prop-types';

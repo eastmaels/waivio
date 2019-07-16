@@ -38,7 +38,7 @@
   "objectType": "/objectType",
   "generalSearch": "/generalSearch",
   "userStatistics": "/user-statistics",
-  "instrumentStatistic": "/instrument-statistics"
+  "instrumentStatistic": "/instrument-statistics",
   "campaigns": "/campaigns",
   "suitableUsers": "/suitable_users"
 }

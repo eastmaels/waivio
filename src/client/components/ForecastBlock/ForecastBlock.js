@@ -1,34 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import {Icon} from 'antd';
 import {injectIntl} from 'react-intl';
+import {withRouter} from 'react-router-dom';
 import './ForecastBlock.less';
 import ForecastItem from '../ForecastItem/index';
 
+@withRouter
 @injectIntl
 class ForecastBlock extends React.Component {
   static propTypes = {
+    quoteSecurity: PropTypes.string,
+    intl: PropTypes.shape(),
     forecastsByObject: PropTypes.arrayOf(PropTypes.shape({})),
     forecastsByUser: PropTypes.arrayOf(PropTypes.shape({})),
-    getActiveForecasts: PropTypes.func.isRequired,
-    intl: PropTypes.shape(),
-    isChartObject: PropTypes.bool,
     renderPlace: PropTypes.string,
+    getActiveForecastsByObject: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    getActiveForecasts: () => {
+    getActiveForecastsByObject: () => {
     },
+    quoteSecurity: '',
     intl: {},
-    object: {},
     forecastsByObject: [],
     forecastsByUser: [],
-    isChartObject: false,
     renderPlace: '',
   };
 
   componentDidMount() {
-    this.props.getActiveForecasts();
+    const {quoteSecurity, getActiveForecastsByObject} = this.props;
+    if (quoteSecurity) {
+      getActiveForecastsByObject();
+    }
   }
 
   forecastBlock = (intl, forecasts) => (
@@ -59,17 +64,10 @@ class ForecastBlock extends React.Component {
   );
 
   render() {
-    const {
-      forecastsByObject,
-      forecastsByUser,
-      intl,
-      renderPlace,
-      object,
-    } = this.props;
+    const {forecastsByObject, forecastsByUser, intl, renderPlace, quoteSecurity} = this.props;
+    console.log('TEST OBJ', this.props);
     if (renderPlace === 'rightObjectSidebar') {
-      const currencies =
-        (object && object.object_type && object.object_type === 'currencies') || 'crypto';
-      return currencies && forecastsByObject && forecastsByObject.length
+      return !_.isEmpty(quoteSecurity) && forecastsByObject && forecastsByObject.length
         ? this.forecastBlock(intl, forecastsByObject)
         : null;
     } else if (renderPlace === 'rightSidebar') {

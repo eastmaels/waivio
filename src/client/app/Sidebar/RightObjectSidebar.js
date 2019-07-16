@@ -4,11 +4,15 @@ import RightSidebarLoading from '../../../client/app/Sidebar/RightSidebarLoading
 import ObjectExpertise from '../../components/Sidebar/ObjectExpertise';
 import ForecastBlock from '../../components/ForecastBlock';
 
-const RightObjectSidebar = ({ username, wobject }) =>
+const RightObjectSidebar = ({username, wobject, chartId}) =>
   wobject.users ? (
     <React.Fragment>
       <ObjectExpertise username={username} wobject={wobject}/>
-      <ForecastBlock username={username} renderPlace={'rightObjectSidebar'}/>
+      <ForecastBlock
+        username={username}
+        renderPlace={'rightObjectSidebar'}
+        quoteSecurity={chartId.body}
+      />
     </React.Fragment>
   ) : (
     <RightSidebarLoading />
@@ -17,6 +21,7 @@ const RightObjectSidebar = ({ username, wobject }) =>
 RightObjectSidebar.propTypes = {
   username: PropTypes.string.isRequired,
   wobject: PropTypes.shape().isRequired,
+  chartId: PropTypes.shape().isRequired,
 };
 
 export default RightObjectSidebar;
