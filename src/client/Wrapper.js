@@ -21,14 +21,13 @@ import {
 import { login, logout, busyLogin } from './auth/authActions';
 import { getFollowing, getFollowingObjects, getNotifications } from './user/userActions';
 import { getRate, getRewardFund, setUsedLocale, setAppUrl } from './app/appActions';
-import { getPerformersStatistic } from '../investarena/redux/actions/topPerformersActions';
 import * as reblogActions from './app/Reblog/reblogActions';
 import NotificationPopup from './notifications/NotificationPopup';
 import Topnav from './components/Navigation/Topnav';
 import Transfer from './wallet/Transfer';
 import PowerUpOrDown from './wallet/PowerUpOrDown';
 import BBackTop from './components/BBackTop';
-import { getChartsData } from '../investarena/redux/actions/chartsActions';
+import TopNavigation from './components/Navigation/TopNavigation';
 
 @withRouter
 @connect(
@@ -45,15 +44,13 @@ import { getChartsData } from '../investarena/redux/actions/chartsActions';
     login,
     logout,
     getFollowing,
-    // getFollowingObjects,
-    getPerformersStatistic,
+    getFollowingObjects,
     getNotifications,
     getRate,
     getRewardFund,
     busyLogin,
     getRebloggedList: reblogActions.getRebloggedList,
     setUsedLocale,
-    getChartsData,
   },
 )
 export default class Wrapper extends React.PureComponent {
@@ -68,8 +65,7 @@ export default class Wrapper extends React.PureComponent {
     login: PropTypes.func,
     logout: PropTypes.func,
     getFollowing: PropTypes.func,
-    // getFollowingObjects: PropTypes.func,
-    getPerformersStatistic: PropTypes.func,
+    getFollowingObjects: PropTypes.func,
     getRewardFund: PropTypes.func,
     getRebloggedList: PropTypes.func,
     getRate: PropTypes.func,
@@ -77,7 +73,6 @@ export default class Wrapper extends React.PureComponent {
     setUsedLocale: PropTypes.func,
     busyLogin: PropTypes.func,
     nightmode: PropTypes.bool,
-    getChartsData: PropTypes.func,
   };
 
   static defaultProps = {
@@ -87,8 +82,7 @@ export default class Wrapper extends React.PureComponent {
     login: () => {},
     logout: () => {},
     getFollowing: () => {},
-    // getFollowingObjects: () => {},
-    getPerformersStatistic: () => {},
+    getFollowingObjects: () => {},
     getRewardFund: () => {},
     getRebloggedList: () => {},
     getRate: () => {},
@@ -97,7 +91,6 @@ export default class Wrapper extends React.PureComponent {
     setUsedLocale: () => {},
     busyLogin: () => {},
     nightmode: false,
-    getChartsData: () => {},
   };
 
   static async fetchData({ store, req }) {
@@ -132,8 +125,7 @@ export default class Wrapper extends React.PureComponent {
   componentDidMount() {
     this.props.login().then(() => {
       this.props.getFollowing();
-      // this.props.getFollowingObjects();
-      this.props.getPerformersStatistic();
+      this.props.getFollowingObjects();
       this.props.getNotifications();
       this.props.busyLogin();
     });
@@ -141,7 +133,6 @@ export default class Wrapper extends React.PureComponent {
     this.props.getRewardFund();
     this.props.getRebloggedList();
     this.props.getRate();
-    this.props.getChartsData();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -212,7 +203,7 @@ export default class Wrapper extends React.PureComponent {
   }
 
   render() {
-    const { user, usedLocale, translations } = this.props;
+    const { user, usedLocale, translations, username } = this.props;
 
     const language = findLanguage(usedLocale);
 
@@ -224,6 +215,9 @@ export default class Wrapper extends React.PureComponent {
               <Topnav username={user.name} onMenuItemClick={this.handleMenuItemClick} />
             </Layout.Header>
             <div className="content">
+              <div className="feed-layout container">
+                <TopNavigation authenticated={!!username} userName={username} />
+              </div>
               {renderRoutes(this.props.route.routes)}
               <Transfer />
               <PowerUpOrDown />
