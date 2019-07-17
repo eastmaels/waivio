@@ -85,3 +85,4 @@ export const getObjectAuthor = state => state.author;
 export const getObjectFields = state => state.wobject.fields;
 export const getRatingFields = state =>
   getObjectFields(state).filter(field => field.name === objectFields.rating);
+export const getObjectChartId = state => state.chartId;

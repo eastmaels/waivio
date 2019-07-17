@@ -12,7 +12,8 @@ import {
   getIsUserFailed,
   getIsUserLoaded,
   getObject as getObjectState,
-  getScreenSize,
+  getObjectChartId,
+  getScreenSize
 } from '../reducers';
 import OBJECT_TYPE from './const/objectTypes';
 import {getObjectInfo} from './wobjectsActions';
@@ -36,8 +37,7 @@ import {objectFields} from '../../common/constants/listOfFields';
     failed: getIsUserFailed(state, ownProps.match.params.name),
     wobject: getObjectState(state),
     screenSize: getScreenSize(state),
-    chartId:
-      state.object && state.object.chartId && state.object.chartId ? state.object.chartId : {},
+    chartId: getObjectChartId(state)
   }),
   {
     getObjectInfo,
@@ -205,7 +205,7 @@ export default class Wobj extends React.Component {
             )}
             <Affix className="rightContainer" stickPosition={72}>
               <div className="right">
-                <RightObjectSidebar username={userName} wobject={wobject} chartId={chartId}/>
+                <RightObjectSidebar username={userName} wobject={wobject} quoteSecurity={chartId.body}/>
               </div>
             </Affix>
             <div className="center">

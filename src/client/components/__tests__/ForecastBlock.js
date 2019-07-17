@@ -58,7 +58,7 @@ const store = mockStore({
 });
 
 describe('<ForecastBlock />', () => {
-  const forecasts = [
+  const forecast = [
     {
       author: 'z1wo5',
       created_at: '2019-07-04T11:02:36.000Z',
@@ -76,111 +76,160 @@ describe('<ForecastBlock />', () => {
       username: 'z1wo5',
       forecastsByObject: Array(5),
       forecastsByUser: Array(5),
-      getActiveForecasts: () => {
-      },
     };
     const wrapper = shallowWithStore(<ForecastBlock {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should render component by object whith props in rightObjectSidebar if it's chart object", () => {
+  it("should render component by object with props in rightObjectSidebar if it's chart object", () => {
     const props = {
       username: 'z1wo5',
-      forecastsByObject: forecasts,
-      getActiveForecasts: () => {
-      },
+      quoteSecurity: 'AUDCAD',
+      forecasts: forecast,
       renderPlace: 'rightObjectSidebar',
-      isChartObject: true,
     };
     const component = mountWithStore(<ForecastBlock {...props} />, store);
     const mainDiv = component.find('.st-forecast-wrap');
-    console.log(component.html());
     expect(mainDiv).toHaveLength(1);
   });
 
-  it("should not render component by object whith props in rightObjectSidebar if it's not chart object", () => {
+
+  it("should not render component by object in rightObjectSidebar if it's chart object", () => {
     const props = {
       username: 'z1wo5',
-      forecastsByObject: forecasts,
-      getActiveForecasts: () => {
-      },
+      quoteSecurity: 'AUDCAD',
       renderPlace: 'rightObjectSidebar',
-      isChartObject: false,
     };
     const component = mountWithStore(<ForecastBlock {...props} />, store);
     const mainDiv = component.find('.st-forecast-wrap');
-    console.log(component.html());
     expect(mainDiv).toHaveLength(0);
   });
 
-  it("should not render component by object whithout props in rightObjectSidebar it's chart object", () => {
+  it("should not render component by object without render place if it's chart object", () => {
     const props = {
       username: 'z1wo5',
-      forecastsByObject: [],
-      getActiveForecasts: () => {
-      },
-      renderPlace: 'rightObjectSidebar',
-      isChartObject: true,
+      quoteSecurity: 'AUDCAD',
     };
     const component = mountWithStore(<ForecastBlock {...props} />, store);
     const mainDiv = component.find('.st-forecast-wrap');
-    console.log(component.html());
     expect(mainDiv).toHaveLength(0);
   });
 
-  it("should not render component by object whithout props in rightObjectSidebar it's not chart object", () => {
+  it("should not render component by object without render place with props if it's chart object", () => {
     const props = {
       username: 'z1wo5',
-      forecastsByObject: [],
-      getActiveForecasts: () => {
-      },
-      renderPlace: 'rightObjectSidebar',
-      isChartObject: true,
+      quoteSecurity: 'AUDCAD',
+      forecasts: forecast
     };
     const component = mountWithStore(<ForecastBlock {...props} />, store);
     const mainDiv = component.find('.st-forecast-wrap');
-    console.log(component.html());
     expect(mainDiv).toHaveLength(0);
   });
 
-  it('should render component by user whit props in rightSidebar', () => {
+  it("should not render component by object in rightObjectSidebar if it's not chart object", () => {
     const props = {
       username: 'z1wo5',
-      forecastsByUser: forecasts,
-      getActiveForecasts: () => {
-      },
+      quoteSecurity: '',
+      renderPlace: 'rightObjectSidebar',
+    };
+    const component = mountWithStore(<ForecastBlock {...props} />, store);
+    const mainDiv = component.find('.st-forecast-wrap');
+    expect(mainDiv).toHaveLength(0);
+  });
+
+  it("should not render component by object without render place if it's not chart object", () => {
+    const props = {
+      username: 'z1wo5',
+      quoteSecurity: '',
+    };
+    const component = mountWithStore(<ForecastBlock {...props} />, store);
+    const mainDiv = component.find('.st-forecast-wrap');
+    expect(mainDiv).toHaveLength(0);
+  });
+
+
+  it('should render component by user without quoteSecurity with username in rightSidebar with props', () => {
+    const props = {
+      username: 'z1wo5',
+      forecasts: forecast,
       renderPlace: 'rightSidebar',
     };
     const component = mountWithStore(<ForecastBlock {...props} />, store);
     const mainDiv = component.find('.st-forecast-wrap');
-    console.log(component.html());
     expect(mainDiv).toHaveLength(1);
   });
 
-  it('should not render component by user whitout props in rightSidebar', () => {
+  it('should not render component by user without quoteSecurity with username in rightSidebar without props', () => {
     const props = {
       username: 'z1wo5',
-      forecastsByUser: [],
-      getActiveForecasts: () => {
-      },
+      forecasts: [],
       renderPlace: 'rightSidebar',
     };
     const component = mountWithStore(<ForecastBlock {...props} />, store);
     const mainDiv = component.find('.st-forecast-wrap');
-    console.log(component.html());
     expect(mainDiv).toHaveLength(0);
   });
 
-  it('should not render component without place render', () => {
+  it('should not render component by user without quoteSecurity with username without rander place with props', () => {
     const props = {
       username: 'z1wo5',
-      forecastsByUser: [],
-      getActiveForecasts: () => {
-      },
+      forecasts: forecast
     };
     const component = mountWithStore(<ForecastBlock {...props} />, store);
     const mainDiv = component.find('.st-forecast-wrap');
-    console.log(component.html());
     expect(mainDiv).toHaveLength(0);
   });
+
+  it('should not render component by user without username in rightSidebar', () => {
+    const props = {
+      username: '',
+      renderPlace: 'rightSidebar',
+    };
+    const component = mountWithStore(<ForecastBlock {...props} />, store);
+    const mainDiv = component.find('.st-forecast-wrap');
+    expect(mainDiv).toHaveLength(0);
+  });
+
+  it('should not render component without name and without place render', () => {
+    const props = {
+      username: '',
+      forecasts: [],
+    };
+    const component = mountWithStore(<ForecastBlock {...props} />, store);
+    const mainDiv = component.find('.st-forecast-wrap');
+    expect(mainDiv).toHaveLength(0);
+  });
+
+  it('should not render component by user with quoteSecurity with username in rightSidebar', () => {
+    const props = {
+      username: 'z1wo5',
+      quoteSecurity: 'AUDCAD',
+      renderPlace: 'rightSidebar',
+    };
+    const component = mountWithStore(<ForecastBlock {...props} />, store);
+    const mainDiv = component.find('.st-forecast-wrap');
+    expect(mainDiv).toHaveLength(0);
+  });
+
+  it('should not render component by user with quoteSecurity without username in rightSidebar', () => {
+    const props = {
+      username: 'z1wo5',
+      quoteSecurity: 'AUDCAD',
+      renderPlace: 'rightSidebar',
+    };
+    const component = mountWithStore(<ForecastBlock {...props} />, store);
+    const mainDiv = component.find('.st-forecast-wrap');
+    expect(mainDiv).toHaveLength(0);
+  });
+
+  it('should not render component by user with quoteSecurity without username without render place', () => {
+    const props = {
+      username: 'z1wo5',
+      quoteSecurity: 'AUDCAD',
+    };
+    const component = mountWithStore(<ForecastBlock {...props} />, store);
+    const mainDiv = component.find('.st-forecast-wrap');
+    expect(mainDiv).toHaveLength(0);
+  });
+
 });

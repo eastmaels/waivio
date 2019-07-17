@@ -17,14 +17,18 @@ import quoteData from '../../../investarena/default/quoteData';
 @injectIntl
 class ForecastItem extends React.Component {
   static propTypes = {
+    /* from decorators */
+    intl: PropTypes.shape().isRequired,
+    /* from connect */
     quoteSettings: PropTypes.shape(),
     quote: PropTypes.shape(),
+    /* passed props */
     recommend: PropTypes.string.isRequired,
     postPrice: PropTypes.number.isRequired,
     forecast: PropTypes.string.isRequired,
     dateTimeCreate: PropTypes.string.isRequired,
     permlink: PropTypes.string.isRequired,
-    intl: PropTypes.shape().isRequired,
+
   };
 
   static defaultProps = {

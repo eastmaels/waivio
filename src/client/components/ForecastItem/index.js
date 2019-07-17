@@ -11,7 +11,6 @@ const mapState = () => {
   return (state, ownProps) => ({
     quote: getQuoteState(state, ownProps),
     quoteSettings: getQuoteSettingsState(state, ownProps),
-    isSignIn: false,
   });
 };
 

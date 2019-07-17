@@ -3,36 +3,44 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import {Icon} from 'antd';
 import {injectIntl} from 'react-intl';
-import {withRouter} from 'react-router-dom';
 import './ForecastBlock.less';
 import ForecastItem from '../ForecastItem/index';
 
-@withRouter
 @injectIntl
 class ForecastBlock extends React.Component {
   static propTypes = {
-    quoteSecurity: PropTypes.string,
+    /* from decorators */
     intl: PropTypes.shape(),
-    forecastsByObject: PropTypes.arrayOf(PropTypes.shape({})),
-    forecastsByUser: PropTypes.arrayOf(PropTypes.shape({})),
+    /* from connect */
+    forecasts: PropTypes.arrayOf(PropTypes.shape({})),
+    /* passed props */
+    username: PropTypes.string,
+    quoteSecurity: PropTypes.string,
     renderPlace: PropTypes.string,
     getActiveForecastsByObject: PropTypes.func.isRequired,
+    getActiveForecastsByUser: PropTypes.func.isRequired
   };
 
   static defaultProps = {
+    intl: {},
+    forecasts: [],
+    username: '',
+    quoteSecurity: '',
+    renderPlace: '',
+    getActiveForecastsByUser: () => {
+    },
     getActiveForecastsByObject: () => {
     },
-    quoteSecurity: '',
-    intl: {},
-    forecastsByObject: [],
-    forecastsByUser: [],
-    renderPlace: '',
+
   };
 
   componentDidMount() {
-    const {quoteSecurity, getActiveForecastsByObject} = this.props;
+    const {quoteSecurity, getActiveForecastsByObject, getActiveForecastsByUser, username} = this.props;
     if (quoteSecurity) {
       getActiveForecastsByObject();
+    }
+    if (!quoteSecurity && username) {
+      getActiveForecastsByUser();
     }
   }
 
@@ -64,16 +72,12 @@ class ForecastBlock extends React.Component {
   );
 
   render() {
-    const {forecastsByObject, forecastsByUser, intl, renderPlace, quoteSecurity} = this.props;
-    console.log('TEST OBJ', this.props);
-    if (renderPlace === 'rightObjectSidebar') {
-      return !_.isEmpty(quoteSecurity) && forecastsByObject && forecastsByObject.length
-        ? this.forecastBlock(intl, forecastsByObject)
-        : null;
-    } else if (renderPlace === 'rightSidebar') {
-      return forecastsByUser && forecastsByUser.length
-        ? this.forecastBlock(intl, forecastsByUser)
-        : null;
+    const {forecasts, intl, renderPlace, quoteSecurity} = this.props;
+    if (renderPlace === 'rightObjectSidebar' && !_.isEmpty(quoteSecurity) && forecasts && forecasts.length) {
+      return this.forecastBlock(intl, forecasts);
+    }
+    if (renderPlace === 'rightSidebar' && forecasts && forecasts.length) {
+      return this.forecastBlock(intl, forecasts);
     }
     return null;
   }
