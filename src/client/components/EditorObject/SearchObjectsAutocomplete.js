@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { AutoComplete } from 'antd';
-import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
-import { clearSearchObjectsResults, searchObjectsAutoCompete } from '../../search/searchActions';
-import { getSearchObjectsResults } from '../../reducers';
-import { linkRegex } from '../../helpers/regexHelpers';
-import ObjectType from '../../object/ObjectType';
+import {AutoComplete} from 'antd';
+import {connect} from 'react-redux';
+import {injectIntl} from 'react-intl';
+import {clearSearchObjectsResults, searchObjectsAutoCompete} from '../../search/searchActions';
+import {getSearchObjectsResults} from '../../reducers';
+import {linkRegex} from '../../helpers/regexHelpers';
 import './SearchObjectsAutocomplete.less';
+import ObjectCard from "../ObjectCard/ObjectCard";
 
 @injectIntl
 @connect(
@@ -108,26 +108,13 @@ class SearchObjectsAutocomplete extends Component {
   render() {
     const { searchString } = this.state;
     const { intl, style, searchObjectsResults, itemsIdsToOmit, allowClear } = this.props;
-    const getObjMarkup = obj => (
-      <div className="obj-search-option">
-        <img className="obj-search-option__avatar" src={obj.avatar} alt={obj.title || ''} />
-        <div className="obj-search-option__info">
-          <div className="obj-search-option__text">
-            {obj.name}
-            <div className="obj-search-option__row">
-              <ObjectType type={obj.type} />
-            </div>
-          </div>
-          <span className="obj-search-option__text">{obj.title}</span>
-        </div>
-      </div>
-    );
+    const getObjMarkup = obj => <ObjectCard object={obj} name={obj.name} type={obj.type}/>;
     const searchObjectsOptions = searchString
       ? searchObjectsResults
           .filter(obj => !itemsIdsToOmit.includes(obj.id))
           .map(obj => (
-            <AutoComplete.Option key={obj.id} label={obj.id}>
-              {getObjMarkup(obj)}
+            <AutoComplete.Option key={obj.id} label={obj.id} className='obj-search-option__search-autocomplete'>
+              <ObjectCard object={obj} name={obj.name} type={obj.type}/>
             </AutoComplete.Option>
           ))
       : [];
@@ -154,3 +141,17 @@ class SearchObjectsAutocomplete extends Component {
 }
 
 export default SearchObjectsAutocomplete;
+/*
+<div className="obj-search-option">
+  <img className="obj-search-option__avatar" src={obj.avatar} alt={obj.title || ''} />
+  <div className="obj-search-option__info">
+    <div className="obj-search-option__text">
+      {obj.name}
+      <div className="obj-search-option__row">
+        <ObjectType type={obj.type} />
+      </div>
+    </div>
+    <span className="obj-search-option__text">{obj.title}</span>
+  </div>
+</div>
+*/
