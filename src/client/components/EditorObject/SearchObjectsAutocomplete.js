@@ -7,8 +7,8 @@ import { injectIntl } from 'react-intl';
 import { clearSearchObjectsResults, searchObjectsAutoCompete } from '../../search/searchActions';
 import { getSearchObjectsResults } from '../../reducers';
 import { linkRegex } from '../../helpers/regexHelpers';
-import ObjectType from '../../object/ObjectType';
 import './SearchObjectsAutocomplete.less';
+import ObjectSearchCard from '../ObjectSearchCard/ObjectSearchCard';
 
 @injectIntl
 @connect(
@@ -108,26 +108,16 @@ class SearchObjectsAutocomplete extends Component {
   render() {
     const { searchString } = this.state;
     const { intl, style, searchObjectsResults, itemsIdsToOmit, allowClear } = this.props;
-    const getObjMarkup = obj => (
-      <div className="obj-search-option">
-        <img className="obj-search-option__avatar" src={obj.avatar} alt={obj.title || ''} />
-        <div className="obj-search-option__info">
-          <div className="obj-search-option__text">
-            {obj.name}
-            <div className="obj-search-option__row">
-              <ObjectType type={obj.type} />
-            </div>
-          </div>
-          <span className="obj-search-option__text">{obj.title}</span>
-        </div>
-      </div>
-    );
     const searchObjectsOptions = searchString
       ? searchObjectsResults
           .filter(obj => !itemsIdsToOmit.includes(obj.id))
           .map(obj => (
-            <AutoComplete.Option key={obj.id} label={obj.id}>
-              {getObjMarkup(obj)}
+            <AutoComplete.Option
+              key={obj.id}
+              label={obj.id}
+              className="obj-search-option__search-autocomplete"
+            >
+              <ObjectSearchCard object={obj} name={obj.name} type={obj.type} />
             </AutoComplete.Option>
           ))
       : [];
