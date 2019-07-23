@@ -25,8 +25,8 @@ import LanguageSettings from './LanguageSettings';
 import './Topnav.less';
 import { getFieldWithMaxWeight } from '../../object/wObjectHelper';
 import { objectFields } from '../../../common/constants/listOfFields';
-import ObjectAvatar from '../ObjectAvatar';
 import ModalSignUp from './ModalSignUp/ModalSignUp';
+import ObjectSearchCard from '../ObjectSearchCard/ObjectSearchCard';
 
 @injectIntl
 @withRouter
@@ -369,7 +369,6 @@ class Topnav extends React.Component {
       >
         {_.map(wobjects, option => {
           const wobjName = getFieldWithMaxWeight(option, objectFields.name);
-          const parent = option.parent;
           return wobjName ? (
             <AutoComplete.Option
               marker={'wobj'}
@@ -377,18 +376,12 @@ class Topnav extends React.Component {
               value={`wobj${option.author_permlink}`}
               className="Topnav__search-autocomplete"
             >
-              <div className="Topnav__search-content-wrap">
-                <ObjectAvatar item={option} size={40} />
-                <div>
-                  <div className="Topnav__search-content">{wobjName}</div>
-                  {parent && (
-                    <div className="Topnav__search-content-small">
-                      ({getFieldWithMaxWeight(parent, objectFields.name)})
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="Topnav__search-content-small">{option.object_type}</div>
+              <ObjectSearchCard
+                object={option}
+                name={wobjName}
+                type={option.object_type}
+                parentElement={'Topnav'}
+              />
             </AutoComplete.Option>
           ) : null;
         })}
