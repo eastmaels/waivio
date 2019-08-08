@@ -198,10 +198,14 @@ export default class ObjectTypePage extends React.Component {
           <TopNavigation authenticated={authenticated} userName={authenticatedUserName} />
           <Affix className="leftContainer leftContainer__user" stickPosition={122}>
             <div className="left">
-              <ObjectTypesNavigation
-                objectTypes={objectTypes}
-                typeName={this.props.match.params.typeName}
-              />
+              {!_.isEmpty(objectTypes) ? (
+                <ObjectTypesNavigation
+                  objectTypes={objectTypes}
+                  typeName={this.props.match.params.typeName}
+                />
+              ) : (
+                <Loading />
+              )}
             </div>
           </Affix>
           <div className="center">
