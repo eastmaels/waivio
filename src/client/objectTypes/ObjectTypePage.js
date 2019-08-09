@@ -77,6 +77,7 @@ export default class ObjectTypePage extends React.Component {
     isMapFullScreen: false,
     relatedWobjects: [],
     activefilters: {
+      topRated: [],
       map: [],
       tagCloud: [],
       ratings: [],
@@ -267,6 +268,7 @@ export default class ObjectTypePage extends React.Component {
                 filters={type.filters}
                 activefilters={this.state.activefilters}
                 setFilterValue={this.setFilterValue}
+                intl={intl}
               />
             </div>
           </Affix>
